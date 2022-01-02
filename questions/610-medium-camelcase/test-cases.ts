@@ -1,5 +1,11 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
+type CamelCase<T extends string> = T extends `${infer First}-${infer Rest}`?
+  Rest extends `${infer F}${infer Other}`?
+    F extends Uppercase<F>?`${First}-${F}${CamelCase<Other>}`: `${First}${Uppercase<F>}${CamelCase<Other>}`
+    :CamelCase<Rest>
+  :T
+
 type cases = [
   Expect<Equal<CamelCase<'foo-bar-baz'>, 'fooBarBaz'>>,
   Expect<Equal<CamelCase<'foo-Bar-Baz'>, 'foo-Bar-Baz'>>,

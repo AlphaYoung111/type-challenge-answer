@@ -37,6 +37,9 @@ type testExpect3 = {
   isMotherRussia: false | undefined
 }
 
+type AppendToObject<T, U extends string, V> = {
+  [k in keyof T | U]: k extends keyof T ? T[k] : V
+}
 type cases = [
   Expect<Equal<AppendToObject<test1, 'home', boolean>, testExpect1>>,
   Expect<Equal<AppendToObject<test2, 'home', 1>, testExpect2>>,

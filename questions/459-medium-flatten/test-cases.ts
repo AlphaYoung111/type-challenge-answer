@@ -1,9 +1,10 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
-// type Flatten<T extends unknown[]> = T extends [infer First, ...infer Rest] ?
-//   First extends unknown[] ? Flatten<First> :
-// : T
-// 1
+type Flatten<T extends unknown[]> = T extends [infer First, ...infer Rest]
+  ? First extends unknown[]
+    ? [...Flatten<First>, ...Flatten<Rest>]
+    : [First, ...Flatten<Rest>]
+  : []
 
 type cases = [
   Expect<Equal<Flatten<[]>, []>>,
