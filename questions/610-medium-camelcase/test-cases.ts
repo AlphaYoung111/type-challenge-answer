@@ -1,9 +1,13 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
-type CamelCase<T extends string> = T extends `${infer First}-${infer Rest}`?
-  Rest extends `${infer F}${infer Other}`?
-    F extends Uppercase<F>?`${First}-${F}${CamelCase<Other>}`: `${First}${Uppercase<F>}${CamelCase<Other>}`
-    :CamelCase<Rest>
+// type CamelCase<S extends String> = S extends `${infer First}-${infer Right}`
+//   ? Capitalize<Right> extends Right
+//     ? `${First}-${CamelCase<Capitalize<Right>>}`
+//     : `${First}${CamelCase<Capitalize<Right>>}`
+//   : S
+
+type CamelCase<T extends string> = T extends `${infer First}-${infer A}${infer Rest}`?
+  A extends Uppercase<A> ? `${First}-${CamelCase<`${A}${Rest}`>}`:`${First}${CamelCase<`${Uppercase<A>}${Rest}`>}`
   :T
 
 type cases = [

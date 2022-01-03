@@ -1,5 +1,8 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
+type KebabCase<S, T extends string = ''> = S extends `${infer F}${infer R}` ?
+  Lowercase<F> extends F ? `${F}${KebabCase<R, '-'>}`: `${T}${Lowercase<F>}${KebabCase<R, '-'>}` : S
+
 type cases = [
   Expect<Equal<KebabCase<'FooBarBaz'>, 'foo-bar-baz'>>,
   Expect<Equal<KebabCase<'fooBarBaz'>, 'foo-bar-baz'>>,
