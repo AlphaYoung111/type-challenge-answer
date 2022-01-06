@@ -1,6 +1,9 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
-// type IsUnion<T>
+type IsUnion<T> =
+  T[] extends (T extends unknown ? T[] : never)
+    ? false
+    : true
 
 type cases = [
   Expect<Equal<IsUnion<string>, false >>,
