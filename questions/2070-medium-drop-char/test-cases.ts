@@ -1,4 +1,6 @@
-import { Equal, Expect } from '@type-challenges/utils';
+import { Equal, Expect } from '@type-challenges/utils'
+
+type DropChar<T extends string, P extends string> = T extends `${infer F}${P}${infer R}` ? DropChar<`${F}${R}`, P>:T
 
 type cases = [
   // @ts-expect-error
