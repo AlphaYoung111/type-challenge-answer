@@ -1,19 +1,31 @@
 import { Equal, Expect } from '@type-challenges/utils'
 
-// type Result<T> = {
-//   '0':'9'
-//   '9':'8'
-//   '8':'7'
-//   '7':'6'
-//   '6':'5'
-//   '5':'4'
-//   '4':'3'
-//   '3':'2'
-//   '2':'1'
-//   '1':'0'
-// }
+type DigitToArray = {
+  '0': []
+  '1': [unknown]
+  '2': [unknown, unknown]
+  '3': [unknown, unknown, unknown]
+  '4': [unknown, unknown, unknown, unknown]
+  '5': [unknown, unknown, unknown, unknown, unknown]
+  '6': [unknown, unknown, unknown, unknown, unknown, unknown]
+  '7': [unknown, unknown, unknown, unknown, unknown, unknown, unknown]
+  '8': [unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]
+  '9': [unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]
+}
+type CreateArrayByLength<N extends string, R extends unknown[] = []> = N extends `${infer First}${infer Rest}`
+  ? First extends keyof DigitToArray
+    ? CreateArrayByLength<Rest, [...R, ...R, ...R, ...R, ...R, ...R, ...R, ...R, ...R, ...R, ...DigitToArray[First]]>
+    : never
+  : R
+type MinusOne<T extends number> = CreateArrayByLength<`${T}`> extends [infer First, ...infer Rest]
+  ? Rest['length']
+  : never
 
-// type MinusOne<T extends number> = `${T}` extends `${infer First}${infer L}` ?
+// type MinusOne<T extends number, K extends number[] = []> = T extends K['length']
+//   ? K extends [number, ...infer R]
+//     ? R['length']
+//     : never
+//   : MinusOne<T, [ ...K, 0]>
 
 type cases = [
   Expect<Equal<MinusOne<1>, 0>>,

@@ -9,14 +9,24 @@ interface User {
 interface UserRequiredName {
   name: string
   age?: number
-  address?: string 
+  address?: string
 }
 
 interface UserRequiredNameAndAge {
   name: string
   age: number
-  address?: string 
+  address?: string
 }
+
+type RequiredByKeys<T, K = keyof T> = Omit<T & Required<Pick<T, K & keyof T>>, never>
+// type Copy<T> = {
+//   [Key in keyof T]: T[Key]
+// }
+// type RequiredByKeys<T, K = keyof T> = Copy<{
+//   [P in keyof (Omit<T>, K extends keyof T ? K :never> & Required<Pick<T, keyof T & K>>)]: T[P]
+// }>
+
+// type a = RequiredByKeys<User, 'name'>
 
 type cases = [
   Expect<Equal<RequiredByKeys<User, 'name'>, UserRequiredName>>,

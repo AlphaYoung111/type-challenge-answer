@@ -9,15 +9,18 @@ interface User {
 interface UserPartialName {
   name?: string
   age: number
-  address: string 
+  address: string
 }
 
 interface UserPartialNameAndAge {
   name?: string
   age?: number
-  address: string 
+  address: string
 }
 
+type PartialByKeys<T, K extends PropertyKey = keyof T> = {
+  [P in keyof (Omit<T, K> & Partial<Pick<T, keyof T & K>>)]: T[P]
+}
 type cases = [
   Expect<Equal<PartialByKeys<User, 'name'>, UserPartialName>>,
   Expect<Equal<PartialByKeys<User, 'name' | 'unknown'>, UserPartialName>>,
