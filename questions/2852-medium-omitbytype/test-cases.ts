@@ -7,6 +7,10 @@ interface Model {
   isEnable: boolean
 }
 
+type OmitByType<T, R> = {
+  [K in keyof T as T[K] extends R?never:K]: T[K]
+}
+
 type cases = [
   Expect<Equal<OmitByType<Model, boolean>, { name: string; count: number }>>,
   Expect<Equal<OmitByType<Model, string>, { count: number; isReadonly: boolean; isEnable: boolean }>>,
